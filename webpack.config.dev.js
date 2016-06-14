@@ -7,13 +7,13 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 
 module.exports = {
-    devTool:'source-map',
+    devtool:'source-map',
     entry:[
         'webpack-hot-middleware/client',
         './src/index'
     ],
     output:{
-        path:path.join(__dirname,'dist'),
+        path:path.join(__dirname,'dist','static'),
         filename:'bundle.js',
         publicPath:'/static/'
     },
@@ -21,19 +21,22 @@ module.exports = {
         new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin(),
-        new ExtractTextPlugin('styles.css')
+        new ExtractTextPlugin('app.css')
     ],
     module:{
         loaders:[
             {
-                test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/,
+                test: /\.(gif|jpg|png|woff|eot|ttf)\??.*$/,
                 loader: 'url-loader?limit=50000&name=[path][name].[ext]'
+            },
+            {
+                test: /\.css/,
+                loader: 'style!css'
             },
             {
                 test:/\.less$/,
                 loader: ExtractTextPlugin.extract(
-                    // activate source maps via loader query
-                    'css?sourceMap!' +
+                    'css?sourceMap!'+
                     'less?sourceMap'
                 )
             },
@@ -42,6 +45,10 @@ module.exports = {
                 loaders:['react-hot','babel'],
                 exclude:/node_modules/,
                 include:__dirname
+            },
+            {
+                test: /\.svg$/,
+                loader: 'babel!react-svg'
             }
         ]
     }

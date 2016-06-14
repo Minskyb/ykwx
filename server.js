@@ -6,7 +6,7 @@ var path = require('path');
 var compression = require('compression');
 
 var app = express();
-var port = 5800;
+var port = 8080;
 
 app.use(compression);
 

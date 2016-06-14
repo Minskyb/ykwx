@@ -12,7 +12,7 @@ module.exports = {
         './src/index'
     ],
     output:{
-        path:path.join(__dirname,'dist'),
+        path:path.join(__dirname,'dist','static'),
         filename:'bundle.js',
         publicPath:'/static/'
     },
@@ -20,13 +20,17 @@ module.exports = {
         new webpack.optimize.DedupePlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.optimize.UglifyJsPlugin(),
-        new ExtractTextPlugin('styles.css')  // 把所有样式文件抽取到 styles 中。
+        new ExtractTextPlugin('app.css')  // 把所有样式文件抽取到 styles 中。
     ],
     module:{
         loaders:[
             {
                 test:/\.less$/,
-                loaders:['style','css','less']  // 配置了次文件后，在 code 中引入 html 文件只需和普通引用一样，无需其它前缀。
+                loader: ExtractTextPlugin.extract(['css','less']) // 配置了次文件后，在 code 中引入 html 文件只需和普通引用一样，无需其它前缀。
+            },
+            {
+                test: /\.css/,
+                loader: 'style!css'
             },
             {
                 test:/\.js$/,
