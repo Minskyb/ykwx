@@ -2,36 +2,21 @@
  * Created by ASUS on 2016/6/2.
  */
 import { createStore,applyMiddleware,compose } from  'redux'
+import {routerMiddleware} from 'react-router-redux'
+import {browserHistory} from 'react-router'
 import thunkMiddleware from 'redux-thunk'
-import rootReducer from '../reducers/reducer/rootReducer'
+import rootReducer from '../reducers/rootReducer'
 
-import { NODE_ENV } from '../appConfig.js'
-
-let createStoreWidthMiddleware ;
-
-if( NODE_ENV == "development"){
-
-    const { persistState } = require('redux-devtools');
-    const DevTools = require('../containers/DevTools');
-
-    createStoreWidthMiddleware = compose(
-        applyMiddleware(
-            thunkMiddleware
-        ),
-        DevTools.instrument(),
-        persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/))
-    )(createStore)
-} else {
-    createStoreWithMiddleware = compose(
-        applyMiddleware(
-            thunkMiddleware
-        )
-        ,window.devToolsExtension ? window.devToolsExtension() : f => f
-    )(createStore)
-}
+const createStoreWithMiddleware = compose(
+    applyMiddleware(
+        thunkMiddleware,
+        routerMiddleware(browserHistory)  // 提供动态路由跳转
+    )
+    ,window.devToolsExtension ? window.devToolsExtension() : f => f  // 判断是否安装了 redux-devTools chrome extension
+)(createStore)
 
 export default  function configureStore(initialState){
-    const store = createStoreWidthMiddleware(rootReducer,initialState);
+    const store = createStoreWithMiddleware(rootReducer,initialState);
 
     if(module.hot){
         module.hot.accept('../reducers/rootReducer',() => {
