@@ -41,7 +41,7 @@ export function _hideToast(){
 
 export function _showToast(){
     return {
-        type:ActionTypes.SHOW_TOAST,
+        type:ActionTypes.SHOW_TOAST
     }
 }
 

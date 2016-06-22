@@ -7,7 +7,6 @@ import 'weui'
 import classNames from 'classnames'
 
 import {Input} from '../common'
-
 class PhoneVerifyInput extends Component{
     constructor(props,context){
         super(props,context);
@@ -19,7 +18,6 @@ class PhoneVerifyInput extends Component{
 
         this.codePassed = false;
     }
-
     onClick(e){
 
         if(!this.props.setCodeButtonState || !this.props.active) return;
