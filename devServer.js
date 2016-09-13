@@ -7,7 +7,8 @@ var webpackDevMiddleware = require('webpack-dev-middleware')
 var webpackHotMiddleware = require('webpack-hot-middleware')
 var config = require('./webpack.config.dev')
 
-var app  = new (require('express'))();
+var express = require('express');
+var app  = express();
 var port = 3000;
 
 var compiler = webpack(config);
@@ -20,6 +21,9 @@ app.use(webpackDevMiddleware(compiler,{
     }
 }));
 app.use(webpackHotMiddleware(compiler));
+
+
+app.use(express.static(path.join(__dirname),'./src'));
 
 app.get('*',function(req,res){
     res.sendFile(path.join(__dirname,'src/index.html'));

@@ -14,7 +14,6 @@ import configureStore from './store/configureStore.js'
 
 import { render } from 'react-dom'
 import routes from './routes.js'
-import 'bolt'
 
 const store = configureStore();
 
